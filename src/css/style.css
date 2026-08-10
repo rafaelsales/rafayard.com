@@ -81,6 +81,7 @@ time {
   margin: 0 0 1rem;
   color: var(--muted);
   font-style: italic;
+  font-size: 1rem;
 }
 
 .masthead .bio {
