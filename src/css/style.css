@@ -62,6 +62,10 @@ time {
 }
 
 /* Home */
+.masthead {
+  text-align: center;
+}
+
 .masthead h1 {
   font-size: 2rem;
   margin: 0 0 0.25rem;
@@ -71,6 +75,12 @@ time {
   margin: 0 0 1rem;
   color: var(--muted);
   font-weight: 600;
+}
+
+.masthead .yard {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-style: italic;
 }
 
 .masthead .bio {
