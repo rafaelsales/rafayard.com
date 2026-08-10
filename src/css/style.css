@@ -83,8 +83,7 @@ time {
 }
 
 .post-summary {
-  display: block;
-  color: inherit;
+  position: relative;
   margin: 2.25rem -1.25rem 0;
   padding: 1.25rem;
   border: 1px solid transparent;
@@ -92,14 +91,28 @@ time {
 }
 
 .post-summary:hover {
-  text-decoration: none;
   border-color: var(--border);
 }
 
 .post-summary h2 {
   font-size: 1.4rem;
   margin: 0.35rem 0 0.5rem;
+}
+
+/* The title link stretches invisibly over the whole card, making the
+   article clickable without turning its text into link-styled content. */
+.post-summary h2 a {
   color: var(--ink);
+}
+
+.post-summary h2 a:hover {
+  text-decoration: none;
+}
+
+.post-summary h2 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 
 .post-summary p {
