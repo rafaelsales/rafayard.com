@@ -4,7 +4,7 @@ layout: layouts/base.njk
 <header class="masthead">
   <h1>{{ site.author.name }}</h1>
   <p class="tagline">{{ site.tagline }}.</p>
-  <p class="bio">{{ site.bio }}</p>
+  <p class="bio">{{ site.bioLines | join("<br>") | safe }}</p>
   <p class="subscribe"><a href="/feed.xml">Subscribe via RSS</a></p>
 </header>
 <main>
@@ -23,7 +23,7 @@ layout: layouts/base.njk
   "name": site.author.name,
   "url": site.author.url,
   "jobTitle": site.author.jobTitle,
-  "description": site.bio,
+  "description": site.bioLines | join(" "),
   "sameAs": site.author.sameAs
 } %}
 {%- set websiteJsonLd = {
