@@ -98,7 +98,7 @@ time {
   padding: 1.25rem;
   /* Always-visible but discrete border, sitting close to the background;
      hover pushes it toward the ink color (lighter in dark, stronger in light). */
-  border: 1px solid color-mix(in srgb, var(--border) 45%, var(--background));
+  border: 1px solid color-mix(in srgb, var(--border) 60%, var(--background));
   border-radius: 12px;
 }
 
