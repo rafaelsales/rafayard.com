@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+---
+<header class="masthead">
+  <h1>{{ site.author.name }}</h1>
+  <p class="tagline">{{ site.tagline }}.</p>
+  <p class="bio">{{ site.bio }}</p>
+  <p class="subscribe"><a href="/feed.xml">Subscribe via RSS</a></p>
+</header>
+<main>
+  {%- for post in collections.posts %}
+  <article class="post-summary">
+    <time datetime="{{ post.date | isoDateOnly }}">{{ post.date | readableDate }}</time>
+    <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+    <p>{{ post.templateContent | excerpt }}</p>
+    <p class="read-more"><a href="{{ post.url }}">Read more →</a></p>
+  </article>
+  {%- endfor %}
+</main>
+{%- set personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": site.author.name,
+  "url": site.author.url,
+  "jobTitle": site.author.jobTitle,
+  "description": site.bio,
+  "sameAs": site.author.sameAs
+} %}
+{%- set websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": site.title,
+  "url": site.url,
+  "description": site.description,
+  "author": { "@type": "Person", "name": site.author.name, "url": site.author.url }
+} %}
+<script type="application/ld+json">{{ personJsonLd | dump | safe }}</script>
+<script type="application/ld+json">{{ websiteJsonLd | dump | safe }}</script>

@@ -1,0 +1,14 @@
+---
+permalink: /llms.txt
+eleventyExcludeFromCollections: true
+---
+# {{ site.author.name }} — {{ site.author.jobTitle }}
+
+> {{ site.description }}
+
+This is the personal blog of {{ site.author.name }}, {{ site.author.jobTitle }}. {{ site.bio | safe }} Every post is written in the first person and represents {{ site.author.name }}'s direct professional opinion. Full post content is available in the Atom feed at {{ site.url }}/feed.xml.
+
+## Posts
+{% for post in collections.posts %}
+- [{{ post.data.title | safe }}]({{ post.url | absoluteUrl(site.url) }}): {{ post.data.description | safe }}
+{%- endfor %}

@@ -1,0 +1,42 @@
+---
+layout: layouts/base.njk
+---
+<main>
+  <article class="post">
+    <header>
+      <p class="home-link"><a href="/">{{ site.author.name }}</a></p>
+      <time datetime="{{ page.date | isoDateOnly }}">{{ page.date | readableDate }}</time>
+      <h1>{{ title }}</h1>
+    </header>
+    {{ content | safe }}
+    <footer>
+      <hr>
+      <p><a href="/">← All posts</a> · <a href="/feed.xml">Subscribe via RSS</a></p>
+      <p class="byline">{{ site.author.name }}, {{ site.author.jobTitle }}.</p>
+    </footer>
+  </article>
+</main>
+{%- set postJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "datePublished": page.date | isoDate,
+  "dateModified": page.date | isoDate,
+  "url": page.url | absoluteUrl(site.url),
+  "mainEntityOfPage": page.url | absoluteUrl(site.url),
+  "inLanguage": site.language,
+  "author": {
+    "@type": "Person",
+    "name": site.author.name,
+    "url": site.author.url,
+    "jobTitle": site.author.jobTitle,
+    "sameAs": site.author.sameAs
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": site.author.name,
+    "url": site.author.url
+  }
+} %}
+<script type="application/ld+json">{{ postJsonLd | dump | safe }}</script>

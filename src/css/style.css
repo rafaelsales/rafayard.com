@@ -1,0 +1,177 @@
+/* Color scheme lifted from world.hey.com (light) and its dark mode,
+   per the reference: https://world.hey.com/dhh/endless-execution-4157e065 */
+:root {
+  color-scheme: light dark;
+  --background: #ffffff;
+  --ink: #231c33;
+  --link: #0074e4;
+  --muted: #747480;
+  --border: #e2ddd7;
+  --font-family: -apple-system, BlinkMacSystemFont, Aptos, Roboto, "Segoe UI",
+    Helvetica, Arial, sans-serif;
+  --content-width: 45rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1b2733;
+    --ink: #ece9e6;
+    --link: #50a2ff;
+    --muted: #8a94a3;
+    --border: #333c47;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+  max-width: var(--content-width);
+  background: var(--background);
+  color: var(--ink);
+  font-family: var(--font-family);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+
+time {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Home */
+.masthead h1 {
+  font-size: 2rem;
+  margin: 0 0 0.25rem;
+}
+
+.masthead .tagline {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.masthead .bio {
+  margin: 0 0 1rem;
+}
+
+.masthead .subscribe {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.post-summary {
+  margin-top: 3.5rem;
+}
+
+.post-summary h2 {
+  font-size: 1.4rem;
+  margin: 0.35rem 0 0.5rem;
+}
+
+.post-summary h2 a {
+  color: var(--ink);
+}
+
+.post-summary p {
+  margin: 0 0 0.5rem;
+}
+
+.post-summary .read-more {
+  font-size: 0.95rem;
+}
+
+/* Post */
+.post header .home-link {
+  margin: 0 0 2.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.post h1 {
+  font-size: 2rem;
+  margin: 0.35rem 0 1.75rem;
+}
+
+.post h2 {
+  font-size: 1.4rem;
+  margin: 2.25rem 0 0.75rem;
+}
+
+.post h3 {
+  font-size: 1.15rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+.post p,
+.post ul,
+.post ol {
+  margin: 0 0 1.25rem;
+}
+
+.post footer {
+  margin-top: 3rem;
+}
+
+.post .byline {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0 0 0 1.25rem;
+  border-left: 3px solid var(--border);
+}
+
+code {
+  font-size: 0.88em;
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--ink) 8%, var(--background));
+}
+
+pre {
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  background: color-mix(in srgb, var(--ink) 8%, var(--background));
+}
+
+pre code {
+  padding: 0;
+  background: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

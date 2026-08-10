@@ -1,0 +1,14 @@
+{
+  "url": "https://rafayard.com",
+  "title": "Rafael Sales",
+  "tagline": "Software Creator",
+  "description": "Rafael Sales, Software Creator. Opinions on building and running software.",
+  "bio": "I write about software — building it, running it, and the opinions I've formed doing both.",
+  "language": "en",
+  "author": {
+    "name": "Rafael Sales",
+    "url": "https://rafayard.com",
+    "jobTitle": "Software Creator",
+    "sameAs": ["https://github.com/rafaelsales"]
+  }
+}
