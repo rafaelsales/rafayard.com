@@ -9,12 +9,14 @@ layout: layouts/base.njk
 </header>
 <main>
   {%- for post in collections.posts %}
-  <article class="post-summary">
-    <time datetime="{{ post.date | isoDateOnly }}">{{ post.date | readableDate }}</time>
-    <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
-    <p>{{ post.templateContent | excerpt }}</p>
-    <p class="read-more"><a href="{{ post.url }}">Read more →</a></p>
-  </article>
+  <a class="post-summary" href="{{ post.url }}">
+    <article>
+      <time datetime="{{ post.date | isoDateOnly }}">{{ post.date | readableDate }}</time>
+      <h2>{{ post.data.title }}</h2>
+      <p>{{ post.templateContent | excerpt }}</p>
+      <span class="read-more">Read more →</span>
+    </article>
+  </a>
   {%- endfor %}
 </main>
 {%- set personJsonLd = {

@@ -83,15 +83,22 @@ time {
 }
 
 .post-summary {
-  margin-top: 3.5rem;
+  display: block;
+  color: inherit;
+  margin: 2.25rem -1.25rem 0;
+  padding: 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 12px;
+}
+
+.post-summary:hover {
+  text-decoration: none;
+  border-color: var(--border);
 }
 
 .post-summary h2 {
   font-size: 1.4rem;
   margin: 0.35rem 0 0.5rem;
-}
-
-.post-summary h2 a {
   color: var(--ink);
 }
 
@@ -100,6 +107,7 @@ time {
 }
 
 .post-summary .read-more {
+  color: var(--link);
   font-size: 0.95rem;
 }
 
