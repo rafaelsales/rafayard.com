@@ -1,20 +1,38 @@
-/* Color scheme lifted from world.hey.com (light) and its dark mode,
-   per the reference: https://world.hey.com/dhh/endless-execution-4157e065 */
-:root {
-  color-scheme: light dark;
-  --background: #ffffff;
-  --ink: #231c33;
-  --link: #0074e4;
-  --muted: #747480;
-  --border: #e2ddd7;
+/* Light lifted from pages.rafayard.com/secretaria-lar (hueless warm grays,
+   white cards, green accent); dark from world.hey.com's dark mode.
+   The inline <head> script stamps data-theme before first paint, so the
+   CSS below mostly only knows the attribute. */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --background: #e6e6e3;
+  --card: #ffffff;
+  --ink: #17181a;
+  --link: #2a6b3e;
+  --muted: #63666a;
+  --border: #bcbcb7;
   --font-family: -apple-system, BlinkMacSystemFont, Aptos, Roboto, "Segoe UI",
     Helvetica, Arial, sans-serif;
   --content-width: 45rem;
 }
 
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #1b2733;
+  --card: transparent;
+  --ink: #ece9e6;
+  --link: #50a2ff;
+  --muted: #8a94a3;
+  --border: #333c47;
+}
+
+/* Same dark values again on purpose: this block serves visitors with
+   JavaScript off, where nothing stamps data-theme. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --background: #1b2733;
+    --card: transparent;
     --ink: #ece9e6;
     --link: #50a2ff;
     --muted: #8a94a3;
@@ -27,6 +45,8 @@
 }
 
 body {
+  /* Anchors the theme toggle to the content column's top-right corner. */
+  position: relative;
   margin: 0 auto;
   padding: 3rem 1.5rem 4rem;
   max-width: var(--content-width);
@@ -97,6 +117,9 @@ time {
   position: relative;
   margin: 2.25rem -1.25rem 0;
   padding: 1.25rem;
+  /* White card on the warm gray page in light; transparent (page-colored,
+     the pre-toggle look) in dark. */
+  background: var(--card);
   /* Always-visible but discrete border, sitting close to the background;
      hover pushes it toward the ink color (lighter in dark, stronger in light). */
   border: 1px solid color-mix(in srgb, var(--border) 60%, var(--background));
@@ -208,4 +231,52 @@ hr {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Theme toggle: top-right corner of the content column. Hidden until the
+   script wires it up — without JavaScript it can't do anything. */
+.theme-toggle {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.5rem;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.theme-toggle[hidden] {
+  display: none;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  color: var(--link);
+  border-color: var(--link);
+}
+
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* The icon shows where the click leads: moon in light, sun in dark. */
+.theme-toggle .icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
 }
