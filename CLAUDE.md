@@ -14,6 +14,7 @@ Personal blog of **Rafael Sales, Software Creator**. Eleventy static site, hey.c
 ## Writing rules (apply to every post)
 
 ### Voice
+- Follow the `writing-style` skill ([.claude/skills/writing-style/SKILL.md](.claude/skills/writing-style/SKILL.md)) for all post prose — core principles, banned words/phrases, structure, tone, and the editing loop.
 - First person, direct, opinionated. Rafael states positions; he doesn't hedge with "some might say" or "in my humble opinion".
 - Short sentences. Concrete examples over abstractions. No filler intros ("In this article we will…").
 - Text only by default. Images are rare; when one is truly needed, it must have descriptive alt text matching the target keyword.
