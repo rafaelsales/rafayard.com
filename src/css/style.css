@@ -86,12 +86,14 @@ time {
   position: relative;
   margin: 2.25rem -1.25rem 0;
   padding: 1.25rem;
-  border: 1px solid transparent;
+  /* Always-visible but discrete border, sitting close to the background;
+     hover pushes it toward the ink color (lighter in dark, stronger in light). */
+  border: 1px solid color-mix(in srgb, var(--border) 45%, var(--background));
   border-radius: 12px;
 }
 
 .post-summary:hover {
-  border-color: var(--border);
+  border-color: color-mix(in srgb, var(--border) 80%, var(--ink));
 }
 
 .post-summary h2 {
