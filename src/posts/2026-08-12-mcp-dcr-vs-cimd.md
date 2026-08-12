@@ -47,15 +47,15 @@ The endpoint invites abuse. Open registration is a denial-of-service target, and
 
 The trust lands in the wrong place. It sits on a value the client typed, instead of on something the server can verify.
 
-None of this is theory. The Square MCP server allowed dynamic registration without restricting redirect URIs, and that gap chained into a one-click account takeover: an attacker registers a client, points the redirect at themselves, and walks away with a victim's authorization code. Obsidian Security wrote it up. My gut was pointing at a real hole.
+None of this is theory. Square's MCP server ran dynamic registration without restricting redirect URIs, and it proxied to Square's own auth server with one shared client_id and no tie between the login and the user's session. So an attacker could approve consent once, hand a victim a crafted link that skipped the consent screen, and have the code delivered to the attacker's own redirect. A confused deputy. Obsidian Security wrote it up, and the fix was to restrict redirect URIs during registration. My gut was pointing at a real hole.
 
 ### The one control that actually saves DCR (a live look at Datadog)
 
-So is every open registration endpoint a disaster? No. And the reason why is worth seeing in the wild.
+So is every open registration endpoint a disaster? No. Here is why.
 
 While researching this, I poked at Datadog's real registration endpoint at `us5.datadoghq.com/api/v2/oauth2/register`. It is open and unauthenticated. An empty POST returns 201 with a client_id. On its own that looks alarming.
 
-Then it gets interesting. Send `client_name: "Claude Code"` with the exact metadata the real Claude Code sends, and you get back Datadog's pre-provisioned, branded client_id. Change anything, a foreign redirect URI or a trimmed body, and you drop to a single generic shared client instead. You cannot attach your own redirect to the branded identity through registration.
+Now change the request. Send `client_name: "Claude Code"` with the exact metadata the real Claude Code sends, and you get back Datadog's pre-provisioned, branded client_id. Change anything, a foreign redirect URI or a trimmed body, and you drop to a single generic shared client instead. You cannot attach your own redirect to the branded identity through registration.
 
 The decisive test is at the authorize endpoint:
 
@@ -64,13 +64,13 @@ redirect_uri = http://localhost:3118/callback   ->  "Claude Code" consent screen
 redirect_uri = https://attacker.example/cb       ->  invalid_request: Mismatching redirect URI
 ```
 
-That is the whole game. The open endpoint is not the vulnerability. Strict redirect URI enforcement is what holds the line. Datadog enforces it, so the attack has nowhere to send the code. Square did not, so it did.
+That is the whole game. The open endpoint is not the vulnerability. Strict redirect URI enforcement is what holds the line. Datadog enforces it, so a mismatched redirect has nowhere to send the code. Restricting the redirect during registration was exactly the fix Square shipped.
 
 The rule is not "never expose registration." The rule is: treat client metadata as self-asserted, and never let it be the security boundary. Put the boundary on the redirect URI and the authenticated consent screen. Datadog does. That is why my gut said "fishy" and not "doomed."
 
 ## What are Client ID Metadata Documents (CIMD)?
 
-Client ID Metadata Documents (CIMD) are the fix MCP adopted, and the default since the 2025-11-25 spec. The client_id is an HTTPS URL that hosts the client's metadata. The authorization server fetches that document when it sees the URL, verifies it, and stores nothing. Trust is anchored in domain control instead of a self-asserted string.
+Client ID Metadata Documents (CIMD) are the fix MCP adopted, and the default since the 2025-11-25 spec. The client_id is an HTTPS URL that hosts the client's metadata. The authorization server fetches that document when it sees the URL, verifies it, and stores no registration record. Trust is anchored in domain control instead of a self-asserted string.
 
 ```
 Client publishes once:  https://app.example.com/client.json
@@ -98,7 +98,7 @@ CIMD:  AS trusts  ->  a domain it fetched from     ( https://claude.ai/...  is v
 
 Look at what changes and what does not.
 
-What stays the same: everything after the consent screen. The authorize request, the code, the PKCE token exchange, all identical to DCR. CIMD only changes how the client is identified at the front door.
+What stays the same: everything from the consent screen onward. The code and the PKCE token exchange are identical to DCR. CIMD only changes the front door, the authorize request, where the client_id is now a URL the server fetches instead of an opaque string it stored.
 
 What changes: the client_id is now a URL the client controls, and the server fetches the metadata from it instead of storing a registration. That single move fixes most of the DCR complaints at once:
 
@@ -113,7 +113,7 @@ CIMD is not free, and I would rather say the costs out loud:
 - Availability coupling. If the metadata document is down, authentication breaks. Caching softens it.
 - Mutable, client-controlled metadata, plus the classic problem of a domain lapsing and getting bought by someone else.
 
-DCR still has a narrow place: clients that genuinely cannot host a URL. That is why MCP kept DCR as MAY, made CIMD SHOULD, and left signed software statements as a complement for stronger asserted identity. As a default, CIMD moves trust onto something the server can actually check. That is the fix.
+DCR still has a narrow place: clients that genuinely cannot host a URL. That is why MCP kept DCR as MAY and made CIMD SHOULD. Signed software statements, for stronger asserted identity on top of CIMD, are a separate proposal (SEP-1032), not part of the shipped spec. As a default, CIMD moves trust onto something the server can actually check. That is the fix.
 
 ## DCR vs CIMD: what is the difference?
 
