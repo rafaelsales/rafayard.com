@@ -2,7 +2,7 @@
 title: My gut flagged MCP's Dynamic Client Registration before the RFC did
 description: "Rafael Sales on why MCP's Dynamic Client Registration (DCR) is a bad default, how CIMD fixes it, and why AI models don't flag it: they have no gut."
 ---
-I built my first MCP server last week and the auth flow told me to support Dynamic Client Registration: expose a public endpoint, let any client POST its own metadata, hand back a client identity the server then trusts. No gate. I had not read RFC 7591, and I had never cleaned up after a registration incident. It still smelled wrong in about ten seconds. An open endpoint that mints trusted identities from self-asserted metadata is a bad default, and my gut flagged it long before I could cite a reason.
+I'm building my first MCP server and AI told me to use the standard Dynamic Client Registration: expose a public endpoint, let any client POST its own metadata, hand back a client identity the server then trusts. No gate. I had not read RFC 7591, and I had never cleaned up after a registration incident. It still smelled wrong in about ten seconds. An open endpoint that mints trusted identities from self-asserted metadata is a bad default, and my gut flagged it long before I could cite a reason.
 
 ## Experience is compressed into instinct
 
