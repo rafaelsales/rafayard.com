@@ -4,7 +4,10 @@ export default function (eleventyConfig) {
     "src/robots.txt": "robots.txt",
     "src/CNAME": "CNAME",
     "src/favicon.svg": "favicon.svg",
+    "src/googlecb3b6709d8b0e295.html": "googlecb3b6709d8b0e295.html",
   });
+  // Passthrough only — don't also process the verification file as a template.
+  eleventyConfig.ignores.add("src/googlecb3b6709d8b0e295.html");
 
   const dateFmt = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
